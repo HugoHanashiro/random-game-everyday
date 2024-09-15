@@ -81,7 +81,8 @@ async function main() {
     console.log("Just posted!");
 }
 // // Run this on a cron job
-const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
-// const scheduleExpression = '0 11 * * *'; // Run once every three hours in prod
-const job = new cron_1.CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
+// const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
+const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
+const job = new cron_1.CronJob(scheduleExpression, main); // change to scheduleExpressionMinute for testing
 job.start();
+console.log("Está rodando");
