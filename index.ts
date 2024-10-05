@@ -18,6 +18,10 @@ interface Game {
 }
 
 async function getRandomGame() {
+    const urlCount: string = `https://api.rawg.io/api/games?key=${process.env.API_KEY!}`
+    const responseCount = await axios.get(urlCount);
+    const count: number = responseCount.data.count;
+
     const randomNumber: number = Math.floor(Math.random() * 873353) + 1;
     const url: string = `https://api.rawg.io/api/games/${randomNumber}?key=${process.env.API_KEY!}`
     const response = await axios.get(url);
@@ -69,10 +73,12 @@ async function main() {
 
 // // Run this on a cron job
 // const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
-const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
+// const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
 
-const job = new CronJob(scheduleExpression, main); // change to scheduleExpressionMinute for testing
+// const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
 
-job.start();
+// job.start();
+
+main();
 
 console.log("Está rodando")

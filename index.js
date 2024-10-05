@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const api_1 = require("@atproto/api");
 const dotenv = __importStar(require("dotenv"));
-const cron_1 = require("cron");
 const process = __importStar(require("process"));
 const axios_1 = __importDefault(require("axios"));
 dotenv.config();
@@ -37,6 +36,9 @@ const agent = new api_1.BskyAgent({
     service: 'https://bsky.social',
 });
 async function getRandomGame() {
+    const urlCount = `https://api.rawg.io/api/games?key=${process.env.API_KEY}`;
+    const responseCount = await axios_1.default.get(urlCount);
+    const count = responseCount.data.count;
     const randomNumber = Math.floor(Math.random() * 873353) + 1;
     const url = `https://api.rawg.io/api/games/${randomNumber}?key=${process.env.API_KEY}`;
     const response = await axios_1.default.get(url);
@@ -82,7 +84,8 @@ async function main() {
 }
 // // Run this on a cron job
 // const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
-const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
-const job = new cron_1.CronJob(scheduleExpression, main); // change to scheduleExpressionMinute for testing
-job.start();
+// const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
+// const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
+// job.start();
+main();
 console.log("Está rodando");
