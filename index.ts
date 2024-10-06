@@ -88,7 +88,7 @@ const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testi
 
 const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
 
-// job.start();
+job.start();
 
 // main();
 
