@@ -28,19 +28,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const api_1 = require("@atproto/api");
 const dotenv = __importStar(require("dotenv"));
-const process = __importStar(require("process"));
 const axios_1 = __importDefault(require("axios"));
+const BLUESKY_USERNAME = "randomgameeveryday.bsky.social";
+const BLUESKY_PASSWORD = "rj2g-ncx2-cqfb-fpd7";
+const API_KEY = "5b06bc2830814ff68b37e463110cdf72";
 dotenv.config();
 // Create a Bluesky Agent 
 const agent = new api_1.BskyAgent({
     service: 'https://bsky.social',
 });
 async function getRandomGame() {
-    const urlCount = `https://api.rawg.io/api/games?key=${process.env.API_KEY}`;
+    const urlCount = `https://api.rawg.io/api/games?key=${API_KEY}`;
     const responseCount = await axios_1.default.get(urlCount);
     const count = responseCount.data.count;
-    const randomNumber = Math.floor(Math.random() * 873353) + 1;
-    const url = `https://api.rawg.io/api/games/${randomNumber}?key=${process.env.API_KEY}`;
+    const randomNumber = Math.floor(Math.random() * count) + 1;
+    const url = `https://api.rawg.io/api/games/${randomNumber}?key=${API_KEY}`;
     const response = await axios_1.default.get(url);
     const foundGame = {
         id: response.data.id,
@@ -51,7 +53,7 @@ async function getRandomGame() {
 }
 async function main() {
     const game = await getRandomGame();
-    await agent.login({ identifier: process.env.BLUESKY_USERNAME, password: process.env.BLUESKY_PASSWORD });
+    await agent.login({ identifier: BLUESKY_USERNAME, password: BLUESKY_PASSWORD });
     const imageUrl = game.image_url;
     if (imageUrl) {
         const imageResponse = await axios_1.default.get(imageUrl, { responseType: 'arraybuffer' }); // Get image data as an arraybuffer

@@ -4,6 +4,10 @@ import { CronJob } from 'cron';
 import * as process from 'process';
 import axios from 'axios';
 
+const BLUESKY_USERNAME: string = "randomgameeveryday.bsky.social"
+const BLUESKY_PASSWORD: string = "rj2g-ncx2-cqfb-fpd7"
+const API_KEY: string = "5b06bc2830814ff68b37e463110cdf72"
+
 dotenv.config();
 
 // Create a Bluesky Agent 
@@ -18,12 +22,12 @@ interface Game {
 }
 
 async function getRandomGame() {
-    const urlCount: string = `https://api.rawg.io/api/games?key=${process.env.API_KEY!}`
+    const urlCount: string = `https://api.rawg.io/api/games?key=${API_KEY}`
     const responseCount = await axios.get(urlCount);
     const count: number = responseCount.data.count;
 
-    const randomNumber: number = Math.floor(Math.random() * 873353) + 1;
-    const url: string = `https://api.rawg.io/api/games/${randomNumber}?key=${process.env.API_KEY!}`
+    const randomNumber: number = Math.floor(Math.random() * count) + 1;
+    const url: string = `https://api.rawg.io/api/games/${randomNumber}?key=${API_KEY}`
     const response = await axios.get(url);
     const foundGame: Game = {
         id: response.data.id,
@@ -35,7 +39,7 @@ async function getRandomGame() {
 
 async function main() {
     const game = await getRandomGame();
-    await agent.login({ identifier: process.env.BLUESKY_USERNAME!, password: process.env.BLUESKY_PASSWORD! })
+    await agent.login({ identifier: BLUESKY_USERNAME, password: BLUESKY_PASSWORD })
 
     const imageUrl = game.image_url;
 
