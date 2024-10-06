@@ -28,7 +28,14 @@ async function getRandomGame() {
 
     const randomNumber: number = Math.floor(Math.random() * count) + 1;
     const url: string = `https://api.rawg.io/api/games/${randomNumber}?key=${API_KEY}`
-    const response = await axios.get(url);
+
+    let response;
+    let status;
+    do {
+        response = await axios.get(url);
+        status = response.status;
+    } while (status !== 200);
+    
     const foundGame: Game = {
         id: response.data.id,
         name: response.data.name_original,
