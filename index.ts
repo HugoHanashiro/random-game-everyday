@@ -35,7 +35,7 @@ async function getRandomGame() {
         response = await axios.get(url);
         status = response.status;
     } while (status !== 200);
-    
+
     const foundGame: Game = {
         id: response.data.id,
         name: response.data.name_original,
@@ -83,13 +83,13 @@ async function main() {
 }
 
 // // Run this on a cron job
-// const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
+const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
 // const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
 
-// const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
+const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
 
 // job.start();
 
-main();
+// main();
 
 console.log("Está rodando")

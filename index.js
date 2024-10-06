@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const api_1 = require("@atproto/api");
 const dotenv = __importStar(require("dotenv"));
+const cron_1 = require("cron");
 const axios_1 = __importDefault(require("axios"));
 const BLUESKY_USERNAME = "randomgameeveryday.bsky.social";
 const BLUESKY_PASSWORD = "rj2g-ncx2-cqfb-fpd7";
@@ -90,9 +91,9 @@ async function main() {
     console.log("Just posted!");
 }
 // // Run this on a cron job
-// const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
+const scheduleExpressionMinute = '* * * * *'; // Run once every minute for testing
 // const scheduleExpression = '0 23 * * *'; // Run once every three hours in prod
-// const job = new CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
+const job = new cron_1.CronJob(scheduleExpressionMinute, main); // change to scheduleExpressionMinute for testing
 // job.start();
-main();
+// main();
 console.log("Está rodando");
